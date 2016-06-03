@@ -1,0 +1,16 @@
+Installing RBM-provisor from source:
+
+You will need to have installed already:
+
+    Java Virtual Machine (jvm) version 1.6 or later
+
+    Apache ant
+
+Connect to the root directory of the release.
+
+Execute:
+
+    ant
+
+That will both build the sources if necessary and run the application.
+
