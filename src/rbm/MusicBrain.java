@@ -87,6 +87,12 @@ public class MusicBrain implements Serializable {
         lrbm = new LayeredRBM(inputLength, numMelodyRows, numMelodyCols, layerSizes);
 
     }
+    
+    public void resetToFirstLayer()
+    {
+        int[] layerResetSizes = {layerSizes[0]};
+        lrbm = new LayeredRBM(inputLength, numMelodyRows, numMelodyCols, layerResetSizes);
+    }
 
     public void addLayerToBrain(int newLayerSize) {
         RBM[] currLayers = lrbm.layers;
@@ -108,6 +114,11 @@ public class MusicBrain implements Serializable {
 
         lrbm.layeredLearn(trainingDataVessels, numEpochs, lrbm.numLayers-1, owner.getTrainingProgressBars(), owner.getEnergyDisplay());
 
+    }
+    
+    public void train(int startingLayer)
+    {
+        lrbm.layeredLearn(trainingDataVessels, numEpochs, startingLayer, owner.getTrainingProgressBars(), owner.getEnergyDisplay());
     }
 
     public void train() {
@@ -136,6 +147,11 @@ public class MusicBrain implements Serializable {
 
     public int getNumEpochs() {
         return numEpochs;
+    }
+    
+    public void setNumEpochs(int numEpochs)
+    {
+        this.numEpochs = numEpochs;
     }
 
     public float getLearningRate() {

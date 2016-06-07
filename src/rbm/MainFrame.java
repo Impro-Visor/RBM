@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
     private EnergyDisplay energyDisplay;
     private ReceptiveFieldPanel receptiveFieldPanel;
     private boolean dirtyBit;
-    private TrainingWorker currTrainer;
+    private Thread currTrainer;
 
     public MainFrame() {
         super("RBM-provisor");
@@ -133,9 +133,12 @@ public class MainFrame extends JFrame {
     }
 
 
+    public void trainBrain()
+    {
+        trainBrain(false);
+    }
 
-
-    public void trainBrain() {
+    public void trainBrain(boolean continuedTraining) {
         File[] inputFiles = fileSelector.getSelectedFiles();
         if (inputFiles == null || inputFiles.length == 0) {
             JOptionPane.showMessageDialog(this, "No files selected");
@@ -159,13 +162,20 @@ public class MainFrame extends JFrame {
             receptiveFieldPanel.setComponentsEnabled(false);
 
             energyDisplay.reset(paramsPanel.getNumLayers(), paramsPanel.getNumEpochs());
-
             brain = new MusicBrain(this);
             genPanel.importSettings(brain);
             dirtyBit = true;
-
-            currTrainer = new TrainingWorker();
-            currTrainer.start();
+            if(!continuedTraining)
+            {
+                currTrainer = new TrainingWorker();
+                currTrainer.start();
+            }
+            else
+            {
+                //instantiate continuous training worker and start
+                currTrainer = new ContinuousTrainingWorker(paramsPanel.getLayerSizes(), this);
+                currTrainer.start();
+            }
             
         }
     }
@@ -338,6 +348,59 @@ public class MainFrame extends JFrame {
                 brain.train();
             } else {
                 brain.addLayerToBrain(newLayerSize);
+            }
+            trainingPanel.setAllButtonsEnabled(true);
+            trainingPanel.setStopButtonEnabled(false);
+            genPanel.setButtonEnabled(true);
+            paramsPanel.setComponentsEnabled(true);
+            receptiveFieldPanel.setComponentsEnabled(true);
+            currTrainer = null;
+        }
+    }
+    class ContinuousTrainingWorker extends Thread {
+
+        int[] layerSizes; //Used for adding layers
+        MainFrame owner;
+        public ContinuousTrainingWorker(int[] layerSizes, MainFrame owner) {
+            this.layerSizes = layerSizes;
+            this.owner = owner;
+        }
+
+        @Override
+        public void run() {
+            if(layerSizes.length > 0)
+            {
+                //erase brain's layers to only contain the first untrained rbm
+                brain.resetToFirstLayer();
+                //set our brain's epochs to the epoch step size; each time we train, we will train by that many epochs
+                brain.setNumEpochs(trainingPanel.getEpochStepSize());
+                //for each layer we'll train
+                for(int i = 0; i < layerSizes.length; i++)
+                {
+                    
+                    for(int y = 1; y <= trainingPanel.getEpochSteps(); y++)
+                    {
+                        if(!(new File("Brains/ContinuousGen/" + i + "Layer" + (y*trainingPanel.getEpochStepSize()) + "Epoch.brain").isFile()))
+                        {
+                            
+                            //if we are past the first layer's round of training for all epochs, now we'll split and train each brain off of the saved brain for that epoch level
+                            if(i > 0)
+                            {
+                                brain = (MusicBrain) FileParser.readObject("Brains/ContinuousGen/" + (i-1) + "Layer" + (y*trainingPanel.getEpochStepSize()) + "Epoch.brain");
+                                //add layer to brain, which will be auto-trained
+                                brain.setNumEpochs(y*trainingPanel.getEpochStepSize());
+                                brain.setOwner(owner);
+                                brain.addLayerToBrain(layerSizes[i]);
+                            }
+                            else
+                            {
+                            //write brain for each epoch step on each layer
+                                brain.train(i);
+                            }
+                            FileParser.writeObject(brain, "Brains/ContinuousGen/" + i + "Layer" + (y*trainingPanel.getEpochStepSize()) + "Epoch.brain");
+                        }
+                    }
+                }
             }
             trainingPanel.setAllButtonsEnabled(true);
             trainingPanel.setStopButtonEnabled(false);

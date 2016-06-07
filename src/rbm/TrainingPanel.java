@@ -36,12 +36,14 @@ import javax.swing.*;
 public class TrainingPanel extends javax.swing.JPanel {
     
     MainFrame owner;
+    boolean continuousTraining;
 
 
     /** Creates new form TrainingPanel */
     public TrainingPanel(MainFrame owner) {
         this.owner = owner;
         initComponents();
+        continuousTraining = false;
         progressBars.setActionDescription("Training Layer:");
         progressBars.setProgressDescription("Epoch: 0, Input: 0");
     }
@@ -70,7 +72,13 @@ public class TrainingPanel extends javax.swing.JPanel {
         transposeInputs = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         addLayerButton = new javax.swing.JButton();
+        continuousTrainCheck = new javax.swing.JCheckBox();
+        epochStepSize = new javax.swing.JTextField();
+        epochSteps = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         progressBars = new rbm.ProgressBars();
+        jPanel2 = new javax.swing.JPanel();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Train LRBM", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Lucida Grande", 1, 13))); // NOI18N
         setMaximumSize(new java.awt.Dimension(460, 300));
@@ -237,29 +245,82 @@ public class TrainingPanel extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         jPanel1.add(addLayerButton, gridBagConstraints);
 
+        continuousTrainCheck.setText("Continuous Training?");
+        continuousTrainCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                continuousTrainCheckActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
-        add(jPanel1, gridBagConstraints);
+        gridBagConstraints.gridy = 4;
+        jPanel1.add(continuousTrainCheck, gridBagConstraints);
+
+        epochStepSize.setText("10");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel1.add(epochStepSize, gridBagConstraints);
+
+        epochSteps.setText("5");
+        epochSteps.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                epochStepsActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel1.add(epochSteps, gridBagConstraints);
+
+        jLabel7.setText("Epoch Steps");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel1.add(jLabel7, gridBagConstraints);
+
+        jLabel5.setText("Epoch Step Size");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel1.add(jLabel5, gridBagConstraints);
+
+        add(jPanel1, new java.awt.GridBagConstraints());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         add(progressBars, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridLayout(4, 1));
+        add(jPanel2, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
     private void trainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainButtonActionPerformed
-        owner.trainBrain();
+
+        owner.trainBrain(continuousTraining);
 }//GEN-LAST:event_trainButtonActionPerformed
 
+    public int getEpochStepSize()
+    {
+        return Integer.parseInt(epochStepSize.getText());
+    }
+    
+    public int getEpochSteps()
+    {
+        return Integer.parseInt(epochSteps.getText());
+    }
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         if (owner.hasBrain())
             owner.saveBrain();
@@ -324,6 +385,17 @@ public class TrainingPanel extends javax.swing.JPanel {
         owner.addLayerToBrain();
     }//GEN-LAST:event_addLayerButtonActionPerformed
 
+    private void epochStepsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_epochStepsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_epochStepsActionPerformed
+
+    private void continuousTrainCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continuousTrainCheckActionPerformed
+        // TODO add your handling code here:
+        continuousTraining = !continuousTraining;
+        epochStepSize.setEnabled(!epochStepSize.isEnabled());
+        epochSteps.setEnabled(!epochSteps.isEnabled());
+    }//GEN-LAST:event_continuousTrainCheckActionPerformed
+
     public boolean useWindowing() {
         return windowingOn.isSelected();
     }
@@ -370,11 +442,17 @@ public class TrainingPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addLayerButton;
+    private javax.swing.JCheckBox continuousTrainCheck;
+    private javax.swing.JTextField epochStepSize;
+    private javax.swing.JTextField epochSteps;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loadButton;
     private rbm.ProgressBars progressBars;
     private javax.swing.JButton saveButton;
