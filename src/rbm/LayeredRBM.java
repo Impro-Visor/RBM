@@ -141,7 +141,7 @@ public class LayeredRBM implements Serializable {
      * Convenience function for calling layeredLearn outside of a GUI - see
      * the description of the other layeredLearn method for more details.
      */
-    public void layeredLearn(DataVessel[] inputs, int numEpochs) {
+    public void layeredLearn(DataVessel[] inputs, int numEpochs) throws InterruptedException{
         layeredLearn(inputs, numEpochs, 0, null, null);
     }
 
@@ -161,7 +161,7 @@ public class LayeredRBM implements Serializable {
      * nodes. Also updates the GUI through the indicator panels passed in. Call
      * the other layeredLearn function if you need to train outside the GUI.
      */
-    public void layeredLearn(DataVessel[] inputs, int numEpochs, int startLayer, ProgressBars progressIndicator, EnergyDisplay energyDisplay) {
+    public void layeredLearn(DataVessel[] inputs, int numEpochs, int startLayer, ProgressBars progressIndicator, EnergyDisplay energyDisplay) throws InterruptedException{
         // the progress bar and status indicator are for the GUI
         // if you are not using a GUI, these can be ignored by calling the
         // three parameter layeredLearn method.
@@ -181,7 +181,7 @@ public class LayeredRBM implements Serializable {
         } // </editor-fold>
 
 
-        System.out.println("Learning network weights...");
+        //System.out.println("Learning network weights...");
         for (int currLayer = startLayer; currLayer < numLayers; currLayer++) {
 
             // <editor-fold defaultstate="collapsed" desc="Update Progress Bar Description">
@@ -195,7 +195,7 @@ public class LayeredRBM implements Serializable {
                 });
             }// </editor-fold>
 
-            System.out.println("\nTraining layer "+currLayer+":");
+            //System.out.println("\nTraining layer "+currLayer+":");
             for (int epoch = 0; epoch < numEpochs; epoch++) {
 
                 float annealingRate = (((Params.MIN_ANNEALING_RATE-1)/numEpochs)*epoch)+1;
@@ -217,7 +217,7 @@ public class LayeredRBM implements Serializable {
                                 }
                             });
                         }
-                        return;
+                        throw new InterruptedException();
                     } // </editor-fold>
 
                     // <editor-fold defaultstate="collapsed" desc="Update Progress Bar">
@@ -250,7 +250,7 @@ public class LayeredRBM implements Serializable {
                 }
             }
         }
-        System.out.println("");
+        //System.out.println("");
 
         // <editor-fold defaultstate="collapsed" desc="Reset Progress Bar, Show Finishing Time">
         final long endTime = System.currentTimeMillis();
@@ -312,7 +312,7 @@ public class LayeredRBM implements Serializable {
         }
 
         //testing size of our seed data array
-        System.out.println(seed.getData().length + " seed data length");
+        //System.out.println(seed.getData().length + " seed data length");
         layers[0].setInput(seed.getData());
         for (int cycle = 0; cycle < numCycles; cycle++)
         {

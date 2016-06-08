@@ -94,7 +94,7 @@ public class MusicBrain implements Serializable {
         lrbm = new LayeredRBM(inputLength, numMelodyRows, numMelodyCols, layerResetSizes);
     }
 
-    public void addLayerToBrain(int newLayerSize) {
+    public void addLayerToBrain(int newLayerSize) throws InterruptedException{
         RBM[] currLayers = lrbm.layers;
         int[] currLayerSizes = lrbm.layerSizes;
 
@@ -116,12 +116,12 @@ public class MusicBrain implements Serializable {
 
     }
     
-    public void train(int startingLayer)
+    public void train(int startingLayer) throws InterruptedException
     {
         lrbm.layeredLearn(trainingDataVessels, numEpochs, startingLayer, owner.getTrainingProgressBars(), owner.getEnergyDisplay());
     }
 
-    public void train() {
+    public void train() throws InterruptedException {
         lrbm.layeredLearn(trainingDataVessels, numEpochs, 0, owner.getTrainingProgressBars(), owner.getEnergyDisplay());
     }
 
