@@ -22,6 +22,7 @@
 
 package rbm;
 import java.io.*;
+import encoding.Encoding;
 /**
  *
  * @author Sam Bosley
@@ -182,12 +183,12 @@ public class MusicBrain implements Serializable {
     }
     //somewhat sure this method creates sections of a long melody from the base size
     private DataVessel windowedGenerate(DataVessel chordSeed, int numCycles, int stepSize) {
-        int[][] output = new int[(chordSeed.getChordsSize()/Params.NUM_CHORD_COLUMNS)/stepSize][stepSize*numMelodyCols];
+        int[][] output = new int[(chordSeed.getChordsSize()/Encoding.NUM_CHORD_COLUMNS)/stepSize][stepSize*numMelodyCols];
         lrbm.clamp(numMelodyRows*numMelodyCols, lrbm.getInputLength()); //Clamp chord bits
 
 
         int numFirstGenerations = (numMelodyRows/stepSize) - 1;
-        int[] chordWindow = new int[numMelodyRows*Params.NUM_CHORD_COLUMNS];
+        int[] chordWindow = new int[numMelodyRows*Encoding.NUM_CHORD_COLUMNS];
         System.arraycopy(chordSeed.getChords(), 0, chordWindow, 0, chordWindow.length);
 
         DataVessel seed = DataGenerator.chordData(numMelodyRows*numMelodyCols, chordWindow);
@@ -209,8 +210,8 @@ public class MusicBrain implements Serializable {
             System.arraycopy(randData, 0, seed.getMelody(),
                     (numMelodyRows-stepSize)*numMelodyCols, randData.length); //Get random part of melody seed
 
-            System.arraycopy(chordSeed.getChords(), (i-numFirstGenerations)*Params.NUM_CHORD_COLUMNS*stepSize,
-                    seed.getChords(), 0, numMelodyRows*Params.NUM_CHORD_COLUMNS); //Shifting chords
+            System.arraycopy(chordSeed.getChords(), (i-numFirstGenerations)*Encoding.NUM_CHORD_COLUMNS*stepSize,
+                    seed.getChords(), 0, numMelodyRows*Encoding.NUM_CHORD_COLUMNS); //Shifting chords
 
             seed = lrbm.layeredGenerate(seed, numCycles);
             System.arraycopy(seed.getMelody(), numFirstGenerations*numMelodyCols*stepSize,
@@ -233,7 +234,7 @@ public class MusicBrain implements Serializable {
         int[] chords = chordSeed.getChords();
         int chordLength = chords.length;
 
-        int[] loopedChord = new int[outputRows*Params.NUM_CHORD_COLUMNS];
+        int[] loopedChord = new int[outputRows*Encoding.NUM_CHORD_COLUMNS];
         for (int i=0; i<loopedChord.length/chordLength; ++i)
             System.arraycopy(chords, 0, loopedChord, i*chordLength, chordLength);
         System.arraycopy(chords, 0, loopedChord, (loopedChord.length/chordLength)*chordLength, loopedChord.length%chordLength);

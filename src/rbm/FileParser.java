@@ -36,6 +36,7 @@ import java.util.zip.GZIPOutputStream;
 import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import encoding.Encoding;
 
 public class FileParser {
 
@@ -78,7 +79,7 @@ public class FileParser {
             int numCols = Integer.parseInt(in.readLine());
 
             int[] melody = new int[numRows * numCols];
-            int[] chords = new int[numRows * Params.NUM_CHORD_COLUMNS];
+            int[] chords = new int[numRows * Encoding.NUM_CHORD_COLUMNS];
 
             for (int row = 0; row < numRows; ++row) {
                 String[] currLine = in.readLine().split(" ");
@@ -89,7 +90,7 @@ public class FileParser {
             for (int row = 0; row < numRows; ++row) {
                 String[] currLine = in.readLine().split(" ");
                 for (int col = 0; col < currLine.length; ++col) {
-                    chords[row * Params.NUM_CHORD_COLUMNS + col] = Integer.parseInt(currLine[col]);
+                    chords[row * Encoding.NUM_CHORD_COLUMNS + col] = Integer.parseInt(currLine[col]);
                 }
             }
             in.close();
@@ -174,7 +175,7 @@ public class FileParser {
             //get array sizes and construct array
             BufferedReader in = new BufferedReader(new FileReader(filename));
             int numRows = Integer.parseInt(in.readLine());
-            int numCols = Params.NUM_CHORD_COLUMNS;
+            int numCols = Encoding.NUM_CHORD_COLUMNS;
             int[] chords = new int[numRows * numCols];
 
             //skip next line (don't care about number of melody columns),
@@ -223,10 +224,10 @@ public class FileParser {
             int[] currChords = dv.getChords();
             int melRows = dv.getNumRows();
             int melCols = dv.getNumCols();
-            int numChordRows = currChords.length / Params.NUM_CHORD_COLUMNS;
+            int numChordRows = currChords.length / Encoding.NUM_CHORD_COLUMNS;
 
             if (numChordRows != melRows) {
-                int[] temp = new int[melRows * Params.NUM_CHORD_COLUMNS];
+                int[] temp = new int[melRows * Encoding.NUM_CHORD_COLUMNS];
                 for (int i = 0; i < temp.length / currChords.length; i++) {
                     System.arraycopy(currChords, 0, temp, i*currChords.length, currChords.length);
                 }
@@ -239,13 +240,13 @@ public class FileParser {
 
             for (int i = 0; i < numWindows; i++) {
                 int[] currWindowMelody = new int[windowLength * melCols];
-                int[] currWindowChords = new int[windowLength * Params.NUM_CHORD_COLUMNS];
+                int[] currWindowChords = new int[windowLength * Encoding.NUM_CHORD_COLUMNS];
 
                 System.arraycopy(currMelody, i * stepSize * melCols,
                         currWindowMelody, 0, windowLength * melCols);
 
-                System.arraycopy(currChords, i * stepSize * Params.NUM_CHORD_COLUMNS,
-                        currWindowChords, 0, windowLength * Params.NUM_CHORD_COLUMNS);
+                System.arraycopy(currChords, i * stepSize * Encoding.NUM_CHORD_COLUMNS,
+                        currWindowChords, 0, windowLength * Encoding.NUM_CHORD_COLUMNS);
 
                 DataVessel newWindow = new DataVessel(currWindowMelody, currWindowChords, windowLength, melCols);
                 allWindows.add(newWindow);
@@ -602,17 +603,17 @@ public class FileParser {
      * @return - a 2D int array containing all 12 transpositions of the given chord array
      */
     public static int[][] transposeChordArray(int[] chordArray) {
-        int numRows = chordArray.length/Params.NUM_CHORD_COLUMNS;
+        int numRows = chordArray.length/Encoding.NUM_CHORD_COLUMNS;
         int[][] newChordArray = new int[12][];
 
         for (int transpos = 0; transpos < 12; transpos++) {
 
-            int[] newChord = new int[numRows * Params.NUM_CHORD_COLUMNS];
+            int[] newChord = new int[numRows * Encoding.NUM_CHORD_COLUMNS];
 
             for (int row = 0; row < numRows; row++) {
-                for (int col = 0; col < Params.NUM_CHORD_COLUMNS; col++) {
-                    if (chordArray[row * Params.NUM_CHORD_COLUMNS + col] == 1) {
-                        newChord[row * Params.NUM_CHORD_COLUMNS + ((col + transpos) % Params.NUM_CHORD_COLUMNS)] = 1;
+                for (int col = 0; col < Encoding.NUM_CHORD_COLUMNS; col++) {
+                    if (chordArray[row * Encoding.NUM_CHORD_COLUMNS + col] == 1) {
+                        newChord[row * Encoding.NUM_CHORD_COLUMNS + ((col + transpos) % Encoding.NUM_CHORD_COLUMNS)] = 1;
                     }
                 }
             }

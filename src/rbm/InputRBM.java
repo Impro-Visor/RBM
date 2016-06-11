@@ -468,21 +468,4 @@ public class InputRBM extends RBM  implements Serializable{
     }  // end of class Node
 
 
-    // groups are used for bundling start and end indices
-    // (basically a tuple). Indices are [startIndex, endIndex)
-    class Group implements Serializable{
-        public int startIndex;    // inclusive
-        public int endIndex;      // exclusive
-
-        public Group(int startIndex, int endIndex){
-            this.startIndex = startIndex;
-            this.endIndex = endIndex;
-        }
-
-        @Override
-        public String toString(){
-            return "start index: " + startIndex + " end index: " + endIndex;
-        }
-    } // end of class group
-
 } // end of class InputRBM

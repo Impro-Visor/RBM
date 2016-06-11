@@ -23,6 +23,7 @@
 package rbm;
 
 import java.util.Random;
+import encoding.Encoding;
 
 public class DataGenerator
 {
@@ -75,7 +76,7 @@ public class DataGenerator
     public static DataVessel chordData(int numBits, int[] chord)
     {
         int[] melodyArray = randomData(numBits);
-        int numRows = chord.length/Params.NUM_CHORD_COLUMNS;
+        int numRows = chord.length/Encoding.NUM_CHORD_COLUMNS;
         int numCols = numBits/numRows;
         return new DataVessel(melodyArray, chord, numRows, numCols);
     }
@@ -88,7 +89,7 @@ public class DataGenerator
      */
     public static DataVessel melodyData(int numChordBits, int[] melody) {
         int[] chordArray = randomData(numChordBits);
-        int numRows = chordArray.length/Params.NUM_CHORD_COLUMNS;
+        int numRows = chordArray.length/Encoding.NUM_CHORD_COLUMNS;
         int numCols = melody.length/numRows;
         return new DataVessel(melody, chordArray, numRows, numCols);
     }

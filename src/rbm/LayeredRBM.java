@@ -420,8 +420,16 @@ public class LayeredRBM implements Serializable {
             InputRBM temp = (InputRBM) inrbm;
             // iterate over the rows
             for (int row = 0; row < numRows; row++) {
-                temp.makeGroup((row * numCols), (row * numCols) + (1+1+12)); //group pitch/sustained bits
-                temp.makeGroup((row * numCols) + (1+1+12), (row * numCols) + numCols); //group octave bits
+                //for each row, we'll make groups according to note encoding lengths
+                //row kernel marks our current index while grouping the row, starts at beginning index of row.
+                int rowKernel = row * numCols;
+                
+                for(int groupLength : Params.noteEncoding.getGroupLengths())    //get the current encoding's group sizes
+                {
+                    //temp.makeGroup's second parameter is exclusive end index
+                    temp.makeGroup(rowKernel, groupLength);
+                    rowKernel += groupLength;
+                }
             }
         }
     } // end of method makeGroups

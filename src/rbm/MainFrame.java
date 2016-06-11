@@ -283,7 +283,7 @@ public class MainFrame extends JFrame {
                 return "Lick or Leadsheet files (.lick or .ls)";
             }
         });
-        int status = fc.showOpenDialog(this);
+        int status = fc.showOpenDialog(null);
         if (status == JFileChooser.APPROVE_OPTION) {
             return fc.getSelectedFile();
         } else {

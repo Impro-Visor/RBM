@@ -27,6 +27,7 @@
  */
 package rbm;
 import java.io.Serializable;
+import encoding.Encoding;
 
 
 public class DataVessel implements Serializable {
@@ -84,7 +85,7 @@ public class DataVessel implements Serializable {
         {
             output.append("\nChords:");
             for(int i = 0; i < chords.length; i++){
-                if(i % Params.NUM_CHORD_COLUMNS == 0){
+                if(i % Encoding.NUM_CHORD_COLUMNS == 0){
                     output.append("\n");
                 }
                 output.append(this.chords[i] + " ");

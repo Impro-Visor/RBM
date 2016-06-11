@@ -22,6 +22,9 @@
 
 package rbm;
 
+import encoding.Encoding;
+import encoding.NoteEncodings;
+
 public class Params
 {
 
@@ -92,10 +95,13 @@ public class Params
     public static final int NUM_OUTPUTS = 5;
     public static final String OUT_DIRECTORY = "./";
     public static final String OUT_FILENAME = "new_melody";
-    public static final int NUM_CHORD_COLUMNS = 12;
-    public static final int NUM_LEADSHEET_MELODY_COLUMNS = 18;
 
-
+    ///////////////////////
+    //Encoding Parameters//
+    ///////////////////////
+    public static final NoteEncodings noteEncoding = NoteEncodings.ChromaticOneHot;
+    
+    
     ////////////////////////////////
     // RECEPTIVE FIELD PARAMETERS //
     ////////////////////////////////
