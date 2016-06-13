@@ -389,7 +389,6 @@ public class MainFrame extends JFrame {
                         {
                             if(!(new File("Brains/ContinuousGen/" + i + "Layer" + (y*trainingPanel.getEpochStepSize()) + "Epoch.brain").isFile()))
                             {
-
                                 //if we are past the first layer's round of training for all epochs, now we'll split and train each brain off of the saved brain for that epoch level
                                 if(i > 0)
                                 {
