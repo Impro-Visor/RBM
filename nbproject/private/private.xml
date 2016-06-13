@@ -4,7 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/MainFrame.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/LeadSheetParseException.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/encoding/NoteEncodings.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/encoding/Group.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/InputRBM.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/leadsheet/Note.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/leadsheet/LeadSheetHandler.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/MusicBrain.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/FileParser.java</file>
@@ -14,9 +18,14 @@
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/LayeredRBM.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/TrainingPanel.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/leadsheet/NoteSymbol.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/encoding/Encoding.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/FileSelector.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/leadsheet/Constants.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/leadsheet/PitchClass.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/ProgressBars.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/DataVessel.java</file>
             <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/GenerationPanel.java</file>
+            <file>file:/Users/cssummer16/NetBeansProjects/rbm-provisor-code-1/src/rbm/Params.java</file>
         </group>
     </open-files>
 </project-private>
