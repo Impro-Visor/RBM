@@ -27,25 +27,48 @@ public enum NoteEncodings {
         }
     }
     
+    
+    
     public int[] getGroupLengths()
     {
         switch(this)
         {
-            case Sequential:        return new int[]{2 + 24, 0};
+            case Sequential:        return getGroupLengths(sequentialGroups);
             /*  Circles of thirds involves two groups for pitch, 
                 and so we'll separate the two pitch groups from
                 sustain and rest bits, accomodating for errors 
                 in leadsheet writing. */
-            case CirclesOfThirds:   return new int[]{2, 4, 3, 4}; 
+            case CirclesOfThirds:   return getGroupLengths(circlesGroups); 
             case ChromaticOneHot:
-            default:                return new int[]{2 + 12, 4};
+            default:                return getGroupLengths(chromaticGroups);
+        }
+    }
+    
+    private int[] getGroupLengths(Group[] groupArray)
+    {
+        int[] intArray = new int[groupArray.length];
+        for(int i = 0; i < intArray.length; i++)
+        {
+            intArray[i] = groupArray[i].endIndex - groupArray[i].startIndex;
+        }
+        return intArray;
+    }
+    
+    public Group[] getGroups()
+    {
+        switch(this)
+        {
+            case Sequential:        return sequentialGroups;
+            case CirclesOfThirds:   return circlesGroups;
+            case ChromaticOneHot:
+            default:    return chromaticGroups;
         }
     }
    
-    //singleton group configurations contain index positions relative to start of note encoding, used to describe final activation process for input RBM
-    public static final  Group[] chromaticGroups = new Group[]{new Group(0,2,false), new Group(2,14,true), new Group(14,18,true)};
+    //singleton group configurations contain index positions relative to start of note encoding, used to describe final activation process for input RBM  
     public static final  Group[] sequentialGroups = new Group[]{new Group(0,2,false), new Group(2,24,true)};
-    public static final  Group[] circleGroups = new Group[]{new Group(0,2,false), new Group(2,6,true), new Group(6,9,true), new Group(9,13)};
+    public static final  Group[] circlesGroups = new Group[]{new Group(0,2,false), new Group(2,6,true), new Group(6,9,true), new Group(9,13, true)};
+    public static final  Group[] chromaticGroups = new Group[]{new Group(0,2,false), new Group(2,14,true), new Group(14,18,true)};
     
     /*
         Declare/initialize note encoding data here.

@@ -26,6 +26,7 @@ package rbm;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.ArrayList;
+import encoding.Group;
 
 
 /**
@@ -236,6 +237,11 @@ public class InputRBM extends RBM  implements Serializable{
                 }
             }
             this.visibleNodes[bestIndex].setValue(1);
+            
+            
+            //for(int i = group.startIndex; i < group.endIndex; i++)
+                //System.out.print(this.visibleNodes[i].value + " ");
+            //System.out.println("line");
 
 
         } // end of groups foreach
@@ -348,8 +354,10 @@ public class InputRBM extends RBM  implements Serializable{
 
         // turn off indices covered by groups.  -1 is off in this instance
         for(Group group: groups){
-            for(int i = group.startIndex; i < group.endIndex; i++){
-                this.ungrouped[i] = -1;
+            if(group.isOneHot()) {
+                for(int i = group.startIndex; i < group.endIndex; i++){
+                    this.ungrouped[i] = -1;
+                }
             }
         }
     } // end of method computeUngroupedFromGroups

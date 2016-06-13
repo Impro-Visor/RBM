@@ -24,6 +24,7 @@ package rbm;
 
 import javax.swing.*;
 import java.io.Serializable;
+import encoding.Group;
 //
 //  LayeredRBM.java
 //  
@@ -415,6 +416,7 @@ public class LayeredRBM implements Serializable {
      * Creates the pitch and octave groupings for the InputRBM
      */
     public void makeGroups(RBM inrbm, int numRows, int numCols) {
+        //System.out.println("Rows: " + numRows + " Columns: " + numCols);
         // grouping is reserved for InputRBMs only.  Regular RBMs cannot do this
         if (inrbm instanceof InputRBM) {
             InputRBM temp = (InputRBM) inrbm;
@@ -423,12 +425,16 @@ public class LayeredRBM implements Serializable {
                 //for each row, we'll make groups according to note encoding lengths
                 //row kernel marks our current index while grouping the row, starts at beginning index of row.
                 int rowKernel = row * numCols;
-                
-                for(int groupLength : Params.noteEncoding.getGroupLengths())    //get the current encoding's group sizes
+                Group[] groupArray = Params.noteEncoding.getGroups();
+                for(int i = 0; i < groupArray.length; i++)    //get the current encoding's group sizes
                 {
                     //temp.makeGroup's second parameter is exclusive end index
-                    temp.makeGroup(rowKernel, groupLength);
-                    rowKernel += groupLength;
+                    if(groupArray[i].isOneHot())
+                    {
+                        //System.out.println("Adding group of size " + groupArray[i].length());
+                        temp.makeGroup(rowKernel, rowKernel + groupArray[i].length());
+                    }
+                    rowKernel += groupArray[i].length();
                 }
             }
         }

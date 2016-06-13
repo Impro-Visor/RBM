@@ -10,7 +10,7 @@ package encoding;
 import java.io.Serializable;
 
     // (basically a tuple). Indices are [startIndex, endIndex)
-class Group implements Serializable{
+public class Group implements Serializable{
         public final int startIndex;    // inclusive
         public final int endIndex;      // exclusive
         public final boolean oneHot;
@@ -26,6 +26,16 @@ class Group implements Serializable{
             this.startIndex = startindex;
             this.endIndex = endIndex;
             this.oneHot = oneHot;
+        }
+        
+        public boolean isOneHot()
+        {
+            return oneHot;
+        }
+        
+        public int length()
+        {
+            return endIndex - startIndex;
         }
 
         @Override

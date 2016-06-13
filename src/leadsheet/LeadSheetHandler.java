@@ -413,9 +413,11 @@ public class LeadSheetHandler implements Constants {
             int[] melody = data.getMelody();
             int numRows = data.getNumRows();
             int numCols = data.getNumCols();
+            System.out.println("Rows: " + numRows + " Columns: " + numCols);
 
             int duration = 1;
             int[] beat = new int[numCols];
+            
             System.arraycopy(melody, 0, beat, 0, numCols);
             if (beat[0] == 1) {
                 System.err.println("ERROR: first beat of bit-vector sustained");
@@ -590,24 +592,30 @@ public class LeadSheetHandler implements Constants {
     
     private static String getCircleNote(int[] beat)
     {
+        
         if (beat[1]==1)
             return "r";
         String[] octaveStrings = {"-","", "+", "++"};
         String[] noteStrings = {"c","c#","d","d#","e","f","f#","g","g#","a","a#","b"};
+        //System.out.println("Full beat " + Arrays.toString(beat));
         int[] pitch = Arrays.copyOfRange(beat, 1+1, 1+1+NoteEncodings.circlesNotes[0].length);
+        //System.out.println("Pitch " + Arrays.toString(pitch));
         int[] octave = Arrays.copyOfRange(beat, 1+1+pitch.length, 1+1+pitch.length+NoteEncodings.octaves[0].length);
         int note = 0;
         for(/*^ pre init*/; note < NoteEncodings.circlesNotes.length; note++)
         {
+            
             if(Arrays.equals(NoteEncodings.circlesNotes[note], pitch))
                 break;
         }
+        if(note >= NoteEncodings.circlesNotes.length)
+            System.out.println("WARNING: notes unrecognized, encoding problem");
         for(int i = 0; i < NoteEncodings.octaves.length; i++)
         {
             if(Arrays.equals(NoteEncodings.octaves[i], octave))
                 return noteStrings[note] + octaveStrings[i];
         }
-        System.out.println("WARNING: notes unrecognized, encoding problem");
+        
         return "r";
     }
     

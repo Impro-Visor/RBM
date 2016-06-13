@@ -99,7 +99,7 @@ public class Params
     ///////////////////////
     //Encoding Parameters//
     ///////////////////////
-    public static final NoteEncodings noteEncoding = NoteEncodings.ChromaticOneHot;
+    public static final NoteEncodings noteEncoding = NoteEncodings.Sequential;
     
     
     ////////////////////////////////
