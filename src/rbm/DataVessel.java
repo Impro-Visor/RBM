@@ -48,6 +48,16 @@ public class DataVessel implements Serializable {
         this.melody = melody;
         this.chords = chords;
     }
+    
+    public int getNumChordRows()
+    {
+        return chords.length / Encoding.NUM_CHORD_COLUMNS;
+    }
+    
+    public int getNumChordColumns()
+    {
+        return Encoding.NUM_CHORD_COLUMNS;
+    }
 
 
     /*

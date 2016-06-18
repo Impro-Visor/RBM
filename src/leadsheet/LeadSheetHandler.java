@@ -413,7 +413,7 @@ public class LeadSheetHandler implements Constants {
             int[] melody = data.getMelody();
             int numRows = data.getNumRows();
             int numCols = data.getNumCols();
-            System.out.println("Rows: " + numRows + " Columns: " + numCols);
+            //System.out.println("Rows: " + numRows + " Columns: " + numCols);
 
             int duration = 1;
             int[] beat = new int[numCols];
